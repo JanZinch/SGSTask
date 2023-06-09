@@ -12,22 +12,24 @@ namespace Common
     {
         private Image _imageOriginal;
         private LayoutGroup _layout;
-        
+
         private LinkedList<Image> _images = new LinkedList<Image>();
 
         private const string CollectionURL = "http://data.ikppbb.com/test-task-unity-data/pics/{0:d}.jpg";
-        private const int MaxImagesCount = 66;
+        
         private int _currentImagesCount = 0;
 
+        public int LoadedImagesCount => _currentImagesCount;
+        
         public ImagesLoader(Image imageOriginal, LayoutGroup layout)
         {
             _imageOriginal = imageOriginal;
             _layout = layout;
         }
 
-        public void Update()
+        public void Load(int imagesCount)
         {
-            for (int i = 0; i < 66; i++)
+            for (int i = 0; i < imagesCount; i++)
             {
                 AddImage();
             }

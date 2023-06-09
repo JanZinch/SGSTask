@@ -12,10 +12,45 @@ namespace UI
         [SerializeField] private Image _imageOriginal;
         [SerializeField] private LayoutGroup _imagesLayout;
 
-        private void Start()
+        [SerializeField] private ScrollRect _scrollRect;
+
+        private ImagesLoader _imagesLoader = null;
+
+        private const int MaxImagesCount = 66;
+
+        private readonly int FragmentCount = Mathf.CeilToInt(MaxImagesCount / 10);
+
+        private const float GrowthStep = 0.1f;
+        private Vector2 _minNormalizedPosition = new Vector2(0.0f, 1.0f);
+        
+        private void Awake()
         {
-            new ImagesLoader(_imageOriginal, _imagesLayout).Update();
+            _imagesLoader = new ImagesLoader(_imageOriginal, _imagesLayout);
+            _imagesLoader.Load(8);
+        }
+
+        private void OnEnable()
+        {
+            _scrollRect.onValueChanged.AddListener(OnScrollRectUpdated);
+        }
+
+        private void OnScrollRectUpdated(Vector2 normalizedPosition)
+        {
+            if (_minNormalizedPosition.y - normalizedPosition.y > GrowthStep)
+            {
+                _imagesLoader.Load(8);
+                _minNormalizedPosition.y -= GrowthStep;
+            }
         }
         
+        private void FixedUpdate()
+        {
+            Debug.Log("Pos: " + _scrollRect.normalizedPosition);
+        }
+        
+        private void OnDisable()
+        {
+            _scrollRect.onValueChanged.RemoveListener(OnScrollRectUpdated);
+        }
     }
 }
