@@ -17,8 +17,11 @@ namespace UI
 
         private void OnClick()
         {
-            Instantiate(_dataTransmitterOriginal).Send(Sprite);
-            SceneManager.LoadScene(SceneUtils.View);
+            if (IsSpriteSpecified)
+            {
+                Instantiate(_dataTransmitterOriginal).Send(Sprite);
+                SceneManager.LoadScene(SceneUtils.View);
+            }
         }
 
         protected override void OnDisable()

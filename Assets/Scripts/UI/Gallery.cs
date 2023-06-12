@@ -6,7 +6,7 @@ namespace UI
 {
     public class Gallery : MonoBehaviour
     {
-        [SerializeField] private Image _imageOriginal;
+        [SerializeField] private ImageView _imageOriginal;
         [SerializeField] private LayoutGroup _imagesLayout;
         [SerializeField] private ScrollRect _scrollRect;
         
