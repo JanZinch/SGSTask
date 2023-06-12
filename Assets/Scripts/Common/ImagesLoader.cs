@@ -16,20 +16,25 @@ namespace Common
         private LinkedList<Image> _images = new LinkedList<Image>();
 
         private const string CollectionURL = "http://data.ikppbb.com/test-task-unity-data/pics/{0:d}.jpg";
+
+        private int _maxImagesCount = 0;
         
         private int _currentImagesCount = 0;
 
         public int LoadedImagesCount => _currentImagesCount;
         
-        public ImagesLoader(Image imageOriginal, LayoutGroup layout)
+        public ImagesLoader(Image imageOriginal, LayoutGroup layout, int maxImagesCount)
         {
             _imageOriginal = imageOriginal;
             _layout = layout;
+            _maxImagesCount = maxImagesCount;
         }
 
         public void Load(int imagesCount)
         {
-            for (int i = 0; i < imagesCount; i++)
+            int unloadedImagesCount = _maxImagesCount - _currentImagesCount;
+            
+            for (int i = 0; i < Mathf.Clamp(imagesCount, 0, unloadedImagesCount) ; i++)
             {
                 AddImage();
             }

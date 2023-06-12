@@ -296,8 +296,8 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 350, y: 350}
-  m_Spacing: {x: 20, y: 20}
+  m_CellSize: {x: 450, y: 450}
+  m_Spacing: {x: 50, y: 50}
   m_Constraint: 1
   m_ConstraintCount: 2
 --- !u!1 &576409885
@@ -492,7 +492,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &985087388
@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Content: {fileID: 1902016933}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 2
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
@@ -575,6 +575,7 @@ GameObject:
   - component: {fileID: 1625548216}
   - component: {fileID: 1625548215}
   - component: {fileID: 1625548214}
+  - component: {fileID: 1625548219}
   - component: {fileID: 1625548218}
   m_Layer: 5
   m_Name: Canvas
@@ -679,6 +680,18 @@ MonoBehaviour:
   _imageOriginal: {fileID: 3444807731076371316, guid: 428e022d1d31920449d28c0b60491fc0, type: 3}
   _imagesLayout: {fileID: 490048817}
   _scrollRect: {fileID: 985087388}
+--- !u!114 &1625548219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625548213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b280ccbf45ab495ea3e27f199462abea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1902016932
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,7 +726,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 12400.01}
+  m_SizeDelta: {x: 0, y: 16600}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &2035654084
 GameObject:
