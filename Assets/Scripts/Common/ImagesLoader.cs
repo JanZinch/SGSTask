@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -15,9 +17,10 @@ namespace Common
         private readonly int _maxImagesCount;
         
         private const string RequestURL = "http://data.ikppbb.com/test-task-unity-data/pics/{0:d}.jpg";
+        private static LinkedList<Tuple<int, Texture2D>> _cachedTextures = new LinkedList<Tuple<int, Texture2D>>();
         
         private LinkedList<ImageView> _images = new LinkedList<ImageView>();
-
+        
         public ImagesLoader(ImageView imageOriginal, LayoutGroup imagesParentLayout, int maxImagesCount)
         {
             _imageOriginal = imageOriginal;
@@ -35,25 +38,51 @@ namespace Common
             }
         }
 
-        IEnumerator LoadImage(string uri, ImageView image)
+        private IEnumerator LoadImageFromServer(string uri, ImageView image)
         {
             using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(uri))
             {
                 yield return webRequest.SendWebRequest();
                 
                 Texture2D receivedTexture = DownloadHandlerTexture.GetContent(webRequest);
-                Rect receivedTextureRect = new Rect(0.0f, 0.0f, receivedTexture.width, receivedTexture.height);
+                _cachedTextures.AddLast(new Tuple<int, Texture2D>(_cachedTextures.Count + 1, receivedTexture));
                 
-                image.Sprite = Sprite.Create(receivedTexture, receivedTextureRect, Vector2.zero);
+                SetTextureToImageView(receivedTexture, image);
             }
 
             yield return null;
         }
         
+        private bool TryLoadImageFromCache(int id, ImageView image)
+        {
+            Tuple<int, Texture2D> foundTexture = _cachedTextures.FirstOrDefault(tuple => tuple.Item1 == id);
+
+            if (foundTexture != null)
+            {
+                SetTextureToImageView(foundTexture.Item2, image);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        private static void SetTextureToImageView(Texture2D texture, ImageView image)
+        {
+            Rect textureRect = new Rect(0.0f, 0.0f, texture.width, texture.height);
+            image.Sprite = Sprite.Create(texture, textureRect, Vector2.zero);
+        }
+
         private void AddImage()
         {
             ImageView newImage = Object.Instantiate(_imageOriginal, _imagesParentLayout.transform);
-            _imagesParentLayout.StartCoroutine(LoadImage(string.Format(RequestURL, _images.Count + 1), newImage));
+            
+            if (!TryLoadImageFromCache(_images.Count + 1, newImage))
+            {
+                _imagesParentLayout.StartCoroutine(LoadImageFromServer(string.Format(RequestURL, _images.Count + 1), newImage));
+            }
+            
             _images.AddLast(newImage);
         }
     }
