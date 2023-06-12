@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UI;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -29,14 +27,6 @@ namespace Common
             _maxImagesCount = maxImagesCount;
         }
         
-        /*public static void PreloadToCache(int imagesCount)
-        {
-            for (int i = 0; i < imagesCount; i++)
-            {
-                _texturesCache.Preload(string.Format(RequestURL, i + 1));
-            }
-        }*/
-        
         public void LoadIfPossible(int imagesCount)
         {
             int unloadedImagesCount = _maxImagesCount - _images.Count;
@@ -58,15 +48,13 @@ namespace Common
                 Texture2D receivedTexture = DownloadHandlerTexture.GetContent(webRequest);
                 _texturesCache.Add(imageIndex, receivedTexture);
                 
-                Debug.Log("Index: " + imageIndex);
-                
                 image.Sprite = CreateSpriteFromTexture(receivedTexture);
             }
             
             yield return null;
         }
         
-        private bool TryLoadImageFromCache(int imageIndex, ImageView image)
+        private bool TryGetImageFromCache(int imageIndex, ImageView image)
         {
             Texture2D foundTexture = _texturesCache.Get(imageIndex);
 
@@ -91,7 +79,7 @@ namespace Common
         {
             ImageView newImage = Object.Instantiate(_imageOriginal, _imagesParentLayout.transform);
             
-            if (!TryLoadImageFromCache(_images.Count + 1, newImage))
+            if (!TryGetImageFromCache(_images.Count + 1, newImage))
             {
                 _imagesParentLayout.StartCoroutine(LoadImageFromServer(_images.Count + 1, newImage));
             }
