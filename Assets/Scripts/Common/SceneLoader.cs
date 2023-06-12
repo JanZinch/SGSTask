@@ -20,6 +20,11 @@ namespace Common
                 SceneManager.LoadScene(_loadedSceneName);
                 
             }).SetLink(gameObject);
+
+            /*if (_loadedSceneName == SceneUtils.Gallery)
+            {
+                ImagesLoader.PreloadToCache(8);
+            }*/
         }
     }
 }

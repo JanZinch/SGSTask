@@ -17,9 +17,10 @@ namespace Common
         private readonly int _maxImagesCount;
         
         private const string RequestURL = "http://data.ikppbb.com/test-task-unity-data/pics/{0:d}.jpg";
-        private static LinkedList<Tuple<int, Texture2D>> _cachedTextures = new LinkedList<Tuple<int, Texture2D>>();
         
         private LinkedList<ImageView> _images = new LinkedList<ImageView>();
+
+        private static TexturesCache _texturesCache = new TexturesCache();
         
         public ImagesLoader(ImageView imageOriginal, LayoutGroup imagesParentLayout, int maxImagesCount)
         {
@@ -27,7 +28,15 @@ namespace Common
             _imagesParentLayout = imagesParentLayout;
             _maxImagesCount = maxImagesCount;
         }
-
+        
+        /*public static void PreloadToCache(int imagesCount)
+        {
+            for (int i = 0; i < imagesCount; i++)
+            {
+                _texturesCache.Preload(string.Format(RequestURL, i + 1));
+            }
+        }*/
+        
         public void LoadIfPossible(int imagesCount)
         {
             int unloadedImagesCount = _maxImagesCount - _images.Count;
@@ -45,21 +54,21 @@ namespace Common
                 yield return webRequest.SendWebRequest();
                 
                 Texture2D receivedTexture = DownloadHandlerTexture.GetContent(webRequest);
-                _cachedTextures.AddLast(new Tuple<int, Texture2D>(_cachedTextures.Count + 1, receivedTexture));
+                _texturesCache.Add(receivedTexture);
                 
-                SetTextureToImageView(receivedTexture, image);
+                image.Sprite = CreateSpriteFromTexture(receivedTexture);
             }
 
             yield return null;
         }
         
-        private bool TryLoadImageFromCache(int id, ImageView image)
+        private bool TryLoadImageFromCache(int imageIndex, ImageView image)
         {
-            Tuple<int, Texture2D> foundTexture = _cachedTextures.FirstOrDefault(tuple => tuple.Item1 == id);
+            Texture2D foundTexture = _texturesCache.Get(imageIndex);
 
             if (foundTexture != null)
             {
-                SetTextureToImageView(foundTexture.Item2, image);
+                image.Sprite = CreateSpriteFromTexture(foundTexture);
                 return true;
             }
             else
@@ -68,10 +77,10 @@ namespace Common
             }
         }
         
-        private static void SetTextureToImageView(Texture2D texture, ImageView image)
+        private static Sprite CreateSpriteFromTexture(Texture2D texture)
         {
             Rect textureRect = new Rect(0.0f, 0.0f, texture.width, texture.height);
-            image.Sprite = Sprite.Create(texture, textureRect, Vector2.zero);
+            return Sprite.Create(texture, textureRect, Vector2.zero);
         }
 
         private void AddImage()
