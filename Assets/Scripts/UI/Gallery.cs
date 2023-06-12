@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using Common;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace UI
@@ -14,8 +11,9 @@ namespace UI
         [SerializeField] private ScrollRect _scrollRect;
         
         private const int MaxImagesCount = 66;
-        private const int ImagesInScreenCount = 10;     // 10
-
+        private const int StartImagesCount = 10;
+        private const int IncreaseImagesCount = 2; 
+        
         private int _increaseStepsCount;   
         private float _increaseStep;
         private Vector2 _minNormalizedPosition = new Vector2(0.0f, 1.0f);
@@ -24,11 +22,11 @@ namespace UI
         
         private void Awake()
         {
-            _increaseStepsCount = Mathf.CeilToInt(MaxImagesCount / (float)ImagesInScreenCount);  //  7
+            _increaseStepsCount = Mathf.RoundToInt(MaxImagesCount / (float)IncreaseImagesCount);
             _increaseStep = 1.0f / _increaseStepsCount;
             
             _imagesLoader = new ImagesLoader(_imageOriginal, _imagesLayout, MaxImagesCount);
-            _imagesLoader.Load(ImagesInScreenCount);
+            _imagesLoader.LoadIfPossible(StartImagesCount);
         }
 
         private void OnEnable()
@@ -38,21 +36,12 @@ namespace UI
 
         private void OnScrollRectUpdated(Vector2 normalizedPosition)
         {
-        
-            //Debug.LogFormat("Pos: {0:f3}", _scrollRect.normalizedPosition.y);
-            //Debug.Log("Pos: " + new Vector2(0.0f, 1.345f));
-        
             if (_minNormalizedPosition.y - normalizedPosition.y > _increaseStep)
             {
-                _imagesLoader.Load(ImagesInScreenCount);
+                _imagesLoader.LoadIfPossible(IncreaseImagesCount);
                 _minNormalizedPosition.y -= _increaseStep;
             }
         }
-        
-        /*private void FixedUpdate()
-        {
-            Debug.Log("Pos: " + _scrollRect.normalizedPosition);
-        }*/
         
         private void OnDisable()
         {

@@ -2,7 +2,8 @@ namespace Common
 {
     public static class SceneUtils
     {
-        public const string MenuName = "Menu";
-        public const string GalleryName = "Gallery";
+        public const string Menu = "Menu";
+        public const string Gallery = "Gallery";
+        public const string View = "View";
     }
 }
