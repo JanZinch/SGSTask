@@ -47,18 +47,22 @@ namespace Common
             }
         }
 
-        private IEnumerator LoadImageFromServer(string uri, ImageView image)
+        private IEnumerator LoadImageFromServer(int imageIndex, ImageView image)
         {
+            string uri = string.Format(RequestURL, imageIndex);
+            
             using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(uri))
             {
                 yield return webRequest.SendWebRequest();
                 
                 Texture2D receivedTexture = DownloadHandlerTexture.GetContent(webRequest);
-                _texturesCache.Add(receivedTexture);
+                _texturesCache.Add(imageIndex, receivedTexture);
+                
+                Debug.Log("Index: " + imageIndex);
                 
                 image.Sprite = CreateSpriteFromTexture(receivedTexture);
             }
-
+            
             yield return null;
         }
         
@@ -89,7 +93,7 @@ namespace Common
             
             if (!TryLoadImageFromCache(_images.Count + 1, newImage))
             {
-                _imagesParentLayout.StartCoroutine(LoadImageFromServer(string.Format(RequestURL, _images.Count + 1), newImage));
+                _imagesParentLayout.StartCoroutine(LoadImageFromServer(_images.Count + 1, newImage));
             }
             
             _images.AddLast(newImage);

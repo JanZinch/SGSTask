@@ -10,7 +10,7 @@ namespace Common
     {
         private LinkedList<Tuple<int, Texture2D>> _cachedTextures = new LinkedList<Tuple<int, Texture2D>>();
 
-        public void Preload(string uri)
+        /*public void Preload(string uri)
         {
             UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(uri);
             
@@ -24,13 +24,11 @@ namespace Common
                 
                 Debug.Log("LOADED 1");
             };
-        }
+        }*/
         
-        public int Add(Texture2D texInstance)
+        public void Add(int texIndex, Texture2D texInstance)
         {
-            int texIndex = _cachedTextures.Count + 1;
             _cachedTextures.AddLast(new Tuple<int, Texture2D>(texIndex, texInstance));
-            return texIndex;
         }
 
         public Texture2D Get(int texIndex)
