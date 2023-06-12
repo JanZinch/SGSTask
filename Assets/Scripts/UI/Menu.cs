@@ -17,7 +17,7 @@ namespace UI
 
         private void OnGalleryClick()
         {
-            SceneManager.LoadScene(SceneUtils.Gallery);
+            SceneManager.LoadScene(SceneUtils.Load);
         }
 
         private void OnDisable()
