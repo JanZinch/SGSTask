@@ -1432,7 +1432,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 0.1
-  _joystick: {fileID: 0}
+  _motionJoystick: {fileID: 0}
+  _shootingController: {fileID: 0}
   _characterController: {fileID: 1267681100}
   _animator: {fileID: 1375875557679175241}
 --- !u!143 &1267681100
