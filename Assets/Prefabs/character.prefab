@@ -1431,9 +1431,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2735ab03d7b14b90a3802afc9d95dda1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 1
-  _characterController: {fileID: 1267681100}
+  _speed: 0.1
   _joystick: {fileID: 0}
+  _characterController: {fileID: 1267681100}
+  _animator: {fileID: 1375875557679175241}
 --- !u!143 &1267681100
 CharacterController:
   m_ObjectHideFlags: 0

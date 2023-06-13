@@ -854,10 +854,6 @@ PrefabInstance:
       value: character
       objectReference: {fileID: 0}
     - target: {fileID: 8620637824157761460, guid: b386d809a2ceccb44a1441f8a3ac502a, type: 3}
-      propertyPath: _speed
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8620637824157761460, guid: b386d809a2ceccb44a1441f8a3ac502a, type: 3}
       propertyPath: _joystick
       value: 
       objectReference: {fileID: 964924840}
