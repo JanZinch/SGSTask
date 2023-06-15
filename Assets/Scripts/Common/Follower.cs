@@ -25,11 +25,6 @@ namespace Common
             _cachedPosition.x = Mathf.Lerp(_cachedPosition.x, targetPosition.x - _delta.x, interpolation);
             _cachedPosition.z = Mathf.Lerp(_cachedPosition.z, targetPosition.z - _delta.z, interpolation);
             transform.position = _cachedPosition;
-
-            /*transform.position = new Vector3(
-                    Mathf.Lerp(selfPosition.x, targetPosition.x - _delta.x, interpolation),
-                    selfPosition.y, 
-                    Mathf.Lerp(selfPosition.z, targetPosition.z - _delta.z, interpolation));*/
         }
     }
 }

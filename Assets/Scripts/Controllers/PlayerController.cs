@@ -24,6 +24,7 @@ namespace Player
         
         private Vector3 _motion = default;
         private static readonly int SpeedParam = Animator.StringToHash("Speed");
+        private static readonly int JumpParam = Animator.StringToHash("Jump");
 
         private int _upperAvatarLayerIndex;
 
@@ -32,6 +33,8 @@ namespace Player
         private PlayerState _state = PlayerState.Walking;
 
         private float _timeBetweenShots = 0.0f;
+
+        private const string JumpBridgeTag = "jump_bridge";
         
         private void Awake()
         {
@@ -51,6 +54,9 @@ namespace Player
                     Shoot(); 
                     break;
 
+                case PlayerState.Jump:
+                    break;
+                
                 default:
                     break;
             }
@@ -112,6 +118,10 @@ namespace Player
             {
                 StartShooting(target);
             }
+            else if (other.TryGetComponent<JumpBridge>(out JumpBridge jumpBridge))
+            {
+                Jump(jumpBridge);
+            }
         }
 
         private void OnTriggerExit(Collider other)
@@ -147,6 +157,15 @@ namespace Player
         {
             _animator.SetLayerWeight(_upperAvatarLayerIndex, Convert.ToSingle(isActive));
         }
-        
+
+        private void Jump(JumpBridge jumpBridge)
+        {
+            _state = PlayerState.Jump;
+            _animator.SetTrigger(JumpParam);
+            jumpBridge.JumpOver(transform, () =>
+            {
+                _state = PlayerState.Walking;
+            });
+        }
     }
 }
