@@ -1,5 +1,6 @@
 ﻿using System;
 using Controllers;
+using DG.Tweening;
 using Environment;
 using TreeEditor;
 using UnityEngine;
@@ -19,6 +20,8 @@ namespace Player
         [SerializeField] private ShootingController _shootingController;
         [SerializeField] private CharacterController _characterController;
         [SerializeField] private Animator _animator;
+        [SerializeField] private ParticleSystem _shotEffectOriginal;
+        [SerializeField] private Transform _shotEffectSpawnPoint;
         
         private Vector3 _motion = default;
         private static readonly int SpeedParam = Animator.StringToHash("Speed");
@@ -90,6 +93,13 @@ namespace Player
                 _currentTarget.Fire(35);
                 Debug.Log("Fire!");
                 _timeBetweenShots = 0.0f;
+
+                ParticleSystem shotEffect = Instantiate<ParticleSystem>(_shotEffectOriginal, _shotEffectSpawnPoint.transform.position, Quaternion.identity);
+
+                DOVirtual.DelayedCall(shotEffect.main.duration, () =>
+                {
+                    Destroy(shotEffect.gameObject);
+                }).SetLink(gameObject);
             }
             else
             {

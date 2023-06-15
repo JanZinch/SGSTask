@@ -1088,10 +1088,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 964924840}
     - target: {fileID: 8620637824157761460, guid: b386d809a2ceccb44a1441f8a3ac502a, type: 3}
-      propertyPath: _shootingCooldown
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8620637824157761460, guid: b386d809a2ceccb44a1441f8a3ac502a, type: 3}
       propertyPath: _shootingController
       value: 
       objectReference: {fileID: 380841476}
