@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,8 +7,9 @@ namespace Environment
 {
     public class PlayerTarget : MonoBehaviour
     {
-        [SerializeField] private DestructibleObject _destructible = null;
-
+        [SerializeField] private DestructibleObject _destructible;
+        [SerializeField] private ParticleSystem _explosionEffectOriginal;
+        
         public UnityEvent OnDestroyed = null;
         
         private void OnEnable()
@@ -34,6 +36,14 @@ namespace Environment
         {
             OnDestroyed?.Invoke();
             OnDestroyed?.RemoveAllListeners();
+            
+            ParticleSystem explosionEffect = Instantiate(_explosionEffectOriginal, transform.position, Quaternion.identity);
+            
+            DOVirtual.DelayedCall(explosionEffect.main.duration, () =>
+            {
+                Destroy(explosionEffect.gameObject);
+                
+            }).SetLink(gameObject);
         }
     }
 }
