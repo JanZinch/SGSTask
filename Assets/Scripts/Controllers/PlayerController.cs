@@ -17,7 +17,6 @@ namespace Player
         
         [Space]
         [SerializeField] private Joystick _motionJoystick;
-        [SerializeField] private ShootingController _shootingController;
         [SerializeField] private CharacterController _characterController;
         [SerializeField] private Animator _animator;
         [SerializeField] private ParticleSystem _shotEffectOriginal;
@@ -38,12 +37,7 @@ namespace Player
         {
             _upperAvatarLayerIndex = _animator.GetLayerIndex("UpperAvatar");
         }
-
-        private void OnEnable()
-        {
-            _shootingController.OnStartAiming += EnableAiming;
-            _shootingController.OnEndAiming += DisableAiming;
-        }
+        
 
         private void FixedUpdate()
         {
@@ -152,22 +146,6 @@ namespace Player
         private void SetAimingAnimation(bool isActive)
         {
             _animator.SetLayerWeight(_upperAvatarLayerIndex, Convert.ToSingle(isActive));
-        }
-
-        private void EnableAiming()
-        {
-            _animator.SetLayerWeight(_upperAvatarLayerIndex, 1.0f);
-        }
-        
-        private void DisableAiming()
-        {
-            _animator.SetLayerWeight(_upperAvatarLayerIndex, 0.0f);
-        }
-
-        private void OnDisable()
-        {
-            _shootingController.OnStartAiming -= EnableAiming;
-            _shootingController.OnEndAiming -= DisableAiming;
         }
         
     }

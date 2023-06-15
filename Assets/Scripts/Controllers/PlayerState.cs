@@ -5,5 +5,6 @@
         None = 0, 
         Walking = 1, 
         Shooting = 2,
+        Jump = 3,
     }
 }
