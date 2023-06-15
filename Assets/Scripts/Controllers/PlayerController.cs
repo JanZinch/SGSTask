@@ -39,7 +39,7 @@ namespace Player
         }
         
 
-        private void FixedUpdate()
+        private void Update()
         {
             switch (_state)
             {
@@ -70,7 +70,7 @@ namespace Player
 
         private void MoveByJoystick()
         {
-            _motion.Set(_motionJoystick.Horizontal * _speed, 0.0f, _motionJoystick.Vertical * _speed);
+            _motion.Set(_motionJoystick.Horizontal * _speed * Time.deltaTime, 0.0f, _motionJoystick.Vertical * _speed * Time.deltaTime);
             _characterController.Move(_motion);
             
             _animator.SetFloat(SpeedParam, Mathf.Max(Mathf.Abs(_motion.normalized.x), Mathf.Abs(_motion.normalized.z)));
@@ -97,7 +97,7 @@ namespace Player
             }
             else
             {
-                _timeBetweenShots += Time.fixedDeltaTime;
+                _timeBetweenShots += Time.deltaTime;
             }
         }
 
