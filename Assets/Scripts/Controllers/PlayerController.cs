@@ -96,10 +96,10 @@ namespace Player
 
                 ParticleSystem shotEffect = Instantiate<ParticleSystem>(_shotEffectOriginal, _shotEffectSpawnPoint.transform.position, Quaternion.identity);
 
-                DOVirtual.DelayedCall(shotEffect.main.duration, () =>
+                /*DOVirtual.DelayedCall(shotEffect.main.duration, () =>
                 {
                     Destroy(shotEffect.gameObject);
-                }).SetLink(gameObject);
+                }).SetLink(gameObject);*/
             }
             else
             {

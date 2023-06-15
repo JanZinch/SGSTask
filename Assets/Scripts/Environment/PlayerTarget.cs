@@ -39,11 +39,11 @@ namespace Environment
             
             ParticleSystem explosionEffect = Instantiate(_explosionEffectOriginal, transform.position, Quaternion.identity);
             
-            DOVirtual.DelayedCall(explosionEffect.main.duration, () =>
+            /*DOVirtual.DelayedCall(explosionEffect.main.duration, () =>
             {
                 Destroy(explosionEffect.gameObject);
                 
-            }).SetLink(gameObject);
+            }).SetLink(gameObject);*/
         }
     }
 }
