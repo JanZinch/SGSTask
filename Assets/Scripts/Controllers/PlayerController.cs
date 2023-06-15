@@ -35,7 +35,7 @@ namespace Player
         
         private void Awake()
         {
-            _upperAvatarLayerIndex = _animator.GetLayerIndex("UpperAvatar");
+            _upperAvatarLayerIndex = _animator.GetLayerIndex("UpperAvatarLayer");
         }
         
 
