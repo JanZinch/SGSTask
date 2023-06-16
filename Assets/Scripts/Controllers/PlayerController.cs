@@ -1,7 +1,10 @@
 ﻿using System;
+using Adapters;
 using Controllers;
 using Environment;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -16,6 +19,7 @@ namespace Player
         [SerializeField] private Animator _animator;
         [SerializeField] private ParticleSystem _shotEffectOriginal;
         [SerializeField] private Transform _shotEffectSpawnPoint;
+        [SerializeField] private CharacterEventsAdapter _eventsAdapter;
         [SerializeField] private FootstepsTrail _footstepsTrail;
         
         private Vector3 _motion = default;
@@ -35,14 +39,30 @@ namespace Player
         [EasyButtons.Button]
         public void Put()
         {
-            _footstepsTrail.LeaveFootstep(transform.position + Vector3.one * 5.0f, Quaternion.identity);
+            _footstepsTrail.LeaveFootstep(transform.position + Vector3.one * 5.0f, Quaternion.identity, false);
         }
 
         private void Awake()
         {
             _upperAvatarLayerIndex = _animator.GetLayerIndex("UpperAvatarLayer");
         }
+
+
+        private void OnEnable()
+        {
+            _eventsAdapter.LeftFootStep.AddListener(LeaveLeftFootstep);
+            _eventsAdapter.RightFootStep.AddListener(LeaveRightFootstep);
+        }
+
+        private void LeaveLeftFootstep()
+        {
+            _footstepsTrail.LeaveFootstep(transform.position, Quaternion.identity, false);
+        }
         
+        private void LeaveRightFootstep()
+        {
+            _footstepsTrail.LeaveFootstep(transform.position, Quaternion.identity, true);
+        }
 
         private void Update()
         {
@@ -168,6 +188,12 @@ namespace Player
             {
                 _state = PlayerState.Walking;
             });
+        }
+        
+        private void OnDisable()
+        {
+            _eventsAdapter.LeftFootStep.RemoveListener(LeaveLeftFootstep);
+            _eventsAdapter.RightFootStep.RemoveListener(LeaveRightFootstep);
         }
     }
 }

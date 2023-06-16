@@ -1,4 +1,5 @@
 ﻿using System;
+using Extensions;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -7,16 +8,20 @@ namespace Environment
     public class FootstepsTrail : MonoBehaviour
     {
         [SerializeField] private Footstep _footstepOriginal;
-
         private IObjectPool<Footstep> _footstepsPool = null;
 
-        public void LeaveFootstep(Vector3 position, Quaternion rotation)
+        public void LeaveFootstep(Vector3 position, Quaternion rotation, bool isRight)
         {
-            Footstep leavedFootstep = _footstepsPool.Get();
-            
-            leavedFootstep.Leave(position, rotation, () =>
+            Footstep footstep = _footstepsPool.Get();
+
+            Vector3 sourceFootstepScale = footstep.transform.localScale;
+            Vector3 modifiedFootstepScale = footstep.IsRight != isRight
+                ? sourceFootstepScale.WithX(Mathf.Abs(sourceFootstepScale.x) * -1.0f)
+                : sourceFootstepScale.WithX(Mathf.Abs(sourceFootstepScale.x));
+
+            footstep.Leave(position, rotation, modifiedFootstepScale, () =>
             {
-                _footstepsPool.Release(leavedFootstep);
+                _footstepsPool.Release(footstep);
             });
         }
 
