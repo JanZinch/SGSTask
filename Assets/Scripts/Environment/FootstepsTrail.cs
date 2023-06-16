@@ -4,11 +4,21 @@ using UnityEngine.Pool;
 
 namespace Environment
 {
-    public class FootstepFactory : MonoBehaviour
+    public class FootstepsTrail : MonoBehaviour
     {
         [SerializeField] private Footstep _footstepOriginal;
 
         private IObjectPool<Footstep> _footstepsPool = null;
+
+        public void LeaveFootstep(Vector3 position, Quaternion rotation)
+        {
+            Footstep leavedFootstep = _footstepsPool.Get();
+            
+            leavedFootstep.Leave(position, rotation, () =>
+            {
+                _footstepsPool.Release(leavedFootstep);
+            });
+        }
 
         private void Awake()
         {

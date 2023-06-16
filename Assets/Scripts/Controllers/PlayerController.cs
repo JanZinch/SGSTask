@@ -16,6 +16,7 @@ namespace Player
         [SerializeField] private Animator _animator;
         [SerializeField] private ParticleSystem _shotEffectOriginal;
         [SerializeField] private Transform _shotEffectSpawnPoint;
+        [SerializeField] private FootstepsTrail _footstepsTrail;
         
         private Vector3 _motion = default;
         private static readonly int SpeedParam = Animator.StringToHash("Speed");
@@ -30,7 +31,13 @@ namespace Player
         private float _timeBetweenShots = 0.0f;
 
         private const string JumpBridgeTag = "jump_bridge";
-        
+
+        [EasyButtons.Button]
+        public void Put()
+        {
+            _footstepsTrail.LeaveFootstep(transform.position + Vector3.one * 5.0f, Quaternion.identity);
+        }
+
         private void Awake()
         {
             _upperAvatarLayerIndex = _animator.GetLayerIndex("UpperAvatarLayer");
