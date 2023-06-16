@@ -9,8 +9,10 @@ namespace Environment
     {
         [SerializeField] private DestructibleObject _destructible;
         [SerializeField] private ParticleSystem _explosionEffectOriginal;
-        
-        public UnityEvent OnDestroyed = null;
+
+        [SerializeField] private UnityEvent _onDestroyed;
+
+        public UnityEvent OnDestroyed => _onDestroyed;
         
         private void OnEnable()
         {
@@ -36,8 +38,8 @@ namespace Environment
 
         private void OnDestroy()
         {
-            OnDestroyed?.Invoke();
-            OnDestroyed?.RemoveAllListeners();
+            _onDestroyed?.Invoke();
+            _onDestroyed?.RemoveAllListeners();
             
             
             

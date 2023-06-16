@@ -56,12 +56,12 @@ namespace Player
 
         private void LeaveLeftFootstep()
         {
-            _footstepsTrail.LeaveFootstep(transform.position, Quaternion.identity, false);
+            _footstepsTrail.LeaveFootstep(transform.position, transform.rotation, false);
         }
         
         private void LeaveRightFootstep()
         {
-            _footstepsTrail.LeaveFootstep(transform.position, Quaternion.identity, true);
+            _footstepsTrail.LeaveFootstep(transform.position, transform.rotation, true);
         }
 
         private void Update()
@@ -168,7 +168,7 @@ namespace Player
         
         private void StopShooting()
         {
-            _currentTarget.OnDestroyed.RemoveListener(StopShooting);
+            _currentTarget.OnDestroyed?.RemoveListener(StopShooting);
             _currentTarget = null;
             
             _state = PlayerState.Walking;
