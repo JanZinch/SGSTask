@@ -1,12 +1,7 @@
 ﻿using System;
 using Controllers;
-using DG.Tweening;
 using Environment;
-using TreeEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace Player
 {
