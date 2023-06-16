@@ -24,6 +24,8 @@ namespace Environment
 
         private void SelfDestroy()
         {
+            ParticleSystem explosionEffect = Instantiate(_explosionEffectOriginal, transform.position, Quaternion.identity);
+            
             Destroy(gameObject);
         }
         
@@ -37,7 +39,7 @@ namespace Environment
             OnDestroyed?.Invoke();
             OnDestroyed?.RemoveAllListeners();
             
-            ParticleSystem explosionEffect = Instantiate(_explosionEffectOriginal, transform.position, Quaternion.identity);
+            
             
             /*DOVirtual.DelayedCall(explosionEffect.main.duration, () =>
             {
