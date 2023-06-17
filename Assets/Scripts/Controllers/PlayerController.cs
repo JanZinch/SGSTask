@@ -10,7 +10,8 @@ namespace Player
 {
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] private float _speed = 0.1f;
+        [SerializeField] private float _speed = 3.0f;
+        [SerializeField] private int _damage = 35;
         [SerializeField] private float _shootingCooldown = 1.0f;
         
         [Space]
@@ -21,40 +22,28 @@ namespace Player
         [SerializeField] private CharacterEventsAdapter _eventsAdapter;
         [SerializeField] private FootstepsTrail _footstepsTrail;
         
-        private Vector3 _motion = default;
         private static readonly int SpeedParam = Animator.StringToHash("Speed");
         private static readonly int JumpParam = Animator.StringToHash("Jump");
-
         private int _upperAvatarLayerIndex;
+        
+        private readonly LinkedList<PlayerTarget> _currentTargets = new LinkedList<PlayerTarget>();
 
-        private LinkedList<PlayerTarget> _currentTargets = new LinkedList<PlayerTarget>();
-
-        private PlayerState _state = PlayerState.Walking;
-
+        private Vector3 _motion = default;
         private float _timeBetweenShots = 0.0f;
+        
+        private PlayerState _state = PlayerState.Walking;
 
         private void Awake()
         {
             _upperAvatarLayerIndex = _animator.GetLayerIndex("UpperAvatarLayer");
         }
-
-
+        
         private void OnEnable()
         {
             _eventsAdapter.LeftFootStep.AddListener(LeaveLeftFootstep);
             _eventsAdapter.RightFootStep.AddListener(LeaveRightFootstep);
         }
-
-        private void LeaveLeftFootstep()
-        {
-            _footstepsTrail.LeaveFootstep(transform.position, transform.rotation, false);
-        }
         
-        private void LeaveRightFootstep()
-        {
-            _footstepsTrail.LeaveFootstep(transform.position, transform.rotation, true);
-        }
-
         private void Update()
         {
             switch (_state)
@@ -64,17 +53,25 @@ namespace Player
                     break;
                 
                 case PlayerState.Shooting:
-                    Shoot(); 
+                    ShootIfReady(); 
                     break;
 
                 case PlayerState.Jump:
-                    break;
-                
+                case PlayerState.None:
                 default:
                     break;
             }
+        }
+        
+        private void MoveByJoystick()
+        {
+            _motion.Set(
+                _motionJoystick.Horizontal * _speed * Time.deltaTime, 
+                0.0f, 
+                _motionJoystick.Vertical * _speed * Time.deltaTime);
             
-            
+            _characterController.Move(_motion);
+            _animator.SetFloat(SpeedParam, Mathf.Max(Mathf.Abs(_motion.normalized.x), Mathf.Abs(_motion.normalized.z)));
         }
 
         private void Walk()
@@ -86,25 +83,17 @@ namespace Player
                 transform.rotation = Quaternion.LookRotation(_motion.normalized, Vector3.up);
             }
         }
-
-        private void MoveByJoystick()
-        {
-            _motion.Set(_motionJoystick.Horizontal * _speed * Time.deltaTime, 0.0f, _motionJoystick.Vertical * _speed * Time.deltaTime);
-            _characterController.Move(_motion);
-            
-            _animator.SetFloat(SpeedParam, Mathf.Max(Mathf.Abs(_motion.normalized.x), Mathf.Abs(_motion.normalized.z)));
-        }
-
-        private void Shoot()
+        
+        private void ShootIfReady()
         {
             MoveByJoystick();
             
-            transform.rotation = Quaternion.LookRotation(GetDirectionTo(_currentTargets.First.Value.transform), Vector3.up);
+            transform.rotation = Quaternion.LookRotation(
+                GetDirectionTo(_currentTargets.First.Value.transform), Vector3.up);
             
             if (_timeBetweenShots > _shootingCooldown)
             {
-                _currentTargets.First.Value.Fire(35);
-                Debug.Log("Fire!");
+                _currentTargets.First.Value.Fire(_damage);
                 _timeBetweenShots = 0.0f;
 
                 EffectsManager.Instance.MakeShot(_shotEffectSpawnPoint.transform.position);
@@ -143,6 +132,12 @@ namespace Player
             }
         }
 
+        private void StartShooting()
+        {
+            _state = PlayerState.Shooting;
+            SetAimingAnimation(true);
+        }
+        
         private void AddShootingTarget(PlayerTarget target)
         {
             if (_currentTargets.Count == 0)
@@ -152,6 +147,18 @@ namespace Player
 
             _currentTargets.AddLast(target);
             target.OnDestroyed.AddListener(NextShootingTarget);
+        }
+        
+        private void NextShootingTarget()
+        {
+            PlayerTarget target = _currentTargets.First.Value;
+            _currentTargets.RemoveFirst();
+            target.OnDestroyed.RemoveListener(NextShootingTarget);
+
+            if (_currentTargets.Count == 0)
+            {
+                StopShooting();
+            }
         }
         
         private void RemoveShootingTarget(PlayerTarget target)
@@ -164,24 +171,6 @@ namespace Player
             {
                 _currentTargets.Remove(target);
                 target.OnDestroyed.RemoveListener(NextShootingTarget);
-            }
-        }
-        
-        private void StartShooting()
-        {
-            _state = PlayerState.Shooting;
-            SetAimingAnimation(true);
-        }
-
-        private void NextShootingTarget()
-        {
-            PlayerTarget target = _currentTargets.First.Value;
-            _currentTargets.RemoveFirst();
-            target.OnDestroyed.RemoveListener(NextShootingTarget);
-
-            if (_currentTargets.Count == 0)
-            {
-                StopShooting();
             }
         }
 
@@ -204,6 +193,16 @@ namespace Player
             {
                 _state = PlayerState.Walking;
             });
+        }
+        
+        private void LeaveLeftFootstep()
+        {
+            _footstepsTrail.LeaveFootstep(transform.position, transform.rotation, false);
+        }
+        
+        private void LeaveRightFootstep()
+        {
+            _footstepsTrail.LeaveFootstep(transform.position, transform.rotation, true);
         }
         
         private void OnDisable()

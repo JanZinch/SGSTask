@@ -1,18 +1,20 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace Environment
 {
     public class DestructibleObject : MonoBehaviour
     {
         [SerializeField] private int _maxHealth = 100;
+        [SerializeField] private UnityEvent<int> _onHealthUpdate;
+        [SerializeField] private UnityEvent _onDeath;
+        
         private int _health = default;
         
         public double Health => _health;
-        public event Action OnDeath = null;
-        public event Action<int> OnTakeDamage = null;
-        public event Action<int> OnHealthUpdate = null;
-
+        public UnityEvent<int> OnHealthUpdate => _onHealthUpdate;
+        public UnityEvent OnDeath => _onDeath;
+        
         private void Awake()
         {
             _health = _maxHealth;
@@ -21,13 +23,15 @@ namespace Environment
         public void MakeDamage(int damage)
         {
             _health = Mathf.Clamp(_health - damage, 0, _maxHealth);
-
-            OnTakeDamage?.Invoke(damage);
-            OnHealthUpdate?.Invoke(_health);
+            
+            _onHealthUpdate?.Invoke(_health);
             
             if (_health <= 0)
             {
-                OnDeath?.Invoke();
+                _onDeath?.Invoke();
+                
+                _onHealthUpdate?.RemoveAllListeners();
+                _onDeath?.RemoveAllListeners();
             }
         }
         
