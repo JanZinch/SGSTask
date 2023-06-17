@@ -10,7 +10,7 @@ namespace Player
 {
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] private float _speed = 3.0f;
+        [SerializeField] private float _maxSpeed = 3.0f;
         [SerializeField] private int _damage = 35;
         [SerializeField] private float _shootingCooldown = 1.0f;
         
@@ -21,7 +21,8 @@ namespace Player
         [SerializeField] private Transform _shotEffectSpawnPoint;
         [SerializeField] private CharacterEventsAdapter _eventsAdapter;
         [SerializeField] private FootstepsTrail _footstepsTrail;
-        
+
+        private static readonly Vector3 PlayerRotationMask = new Vector3(0.0f, 1.0f, 0.0f);
         private static readonly Vector3 LeftStepOffset = new Vector3(-0.075f, 0.0f, 0.0f);
         private static readonly Vector3 RightStepOffset = new Vector3(0.075f, 0.0f, 0.0f);
         
@@ -33,7 +34,7 @@ namespace Player
         private readonly LinkedList<PlayerTarget> _currentTargets = new LinkedList<PlayerTarget>();
 
         private Vector3 _motion = default;
-        private float _timeBetweenShots = 0.0f;
+        private float _timeBetweenShots;
         
         private PlayerState _state = PlayerState.Walking;
 
@@ -66,14 +67,16 @@ namespace Player
                 default:
                     break;
             }
+            
+            transform.position = new Vector3(transform.position.x, 0.05f, transform.position.z);
         }
-        
+
         private void MoveByJoystick()
         {
             _motion.Set(
-                _motionJoystick.Horizontal * _speed * Time.deltaTime, 
+                _motionJoystick.Horizontal * _maxSpeed * Time.deltaTime, 
                 0.0f, 
-                _motionJoystick.Vertical * _speed * Time.deltaTime);
+                _motionJoystick.Vertical * _maxSpeed * Time.deltaTime);
             
             _characterController.Move(_motion);
             _animator.SetFloat(SpeedParam, Mathf.Max(Mathf.Abs(_motion.normalized.x), Mathf.Abs(_motion.normalized.z)));
@@ -85,7 +88,8 @@ namespace Player
             
             if (_motion != Vector3.zero)
             {
-                transform.rotation = Quaternion.LookRotation(_motion.normalized, Vector3.up);
+                Quaternion lookRotation = Quaternion.LookRotation(_motion.normalized, Vector3.up);
+                transform.eulerAngles = Vector3.Scale(lookRotation.eulerAngles, PlayerRotationMask);
             }
         }
         
@@ -93,8 +97,9 @@ namespace Player
         {
             MoveByJoystick();
             
-            transform.rotation = Quaternion.LookRotation(
+            Quaternion lookRotation = Quaternion.LookRotation(
                 GetDirectionTo(_currentTargets.First.Value.transform), Vector3.up);
+            transform.eulerAngles = Vector3.Scale(lookRotation.eulerAngles, PlayerRotationMask);
             
             if (_timeBetweenShots > _shootingCooldown)
             {
@@ -140,7 +145,7 @@ namespace Player
         private void StartShooting()
         {
             _state = PlayerState.Shooting;
-            SetAimingAnimation(true);
+            ActivateAimingAnimation(true);
         }
         
         private void AddShootingTarget(PlayerTarget target)
@@ -164,6 +169,11 @@ namespace Player
             {
                 StopShooting();
             }
+            else
+            {
+                
+                RestartAimingAnimation();
+            }
         }
         
         private void RemoveShootingTarget(PlayerTarget target)
@@ -182,13 +192,26 @@ namespace Player
         private void StopShooting()
         {
             _state = PlayerState.Walking;
-            SetAimingAnimation(false);
+            ActivateAimingAnimation(false);
         }
 
-        private void SetAimingAnimation(bool isActive)
+        private void ActivateAimingAnimation(bool isActive)
         {
             _animator.SetLayerWeight(_upperAvatarLayerIndex, Convert.ToSingle(isActive));
             _animator.SetLayerWeight(_legsFixLayerIndex, isActive ? 0.3f : 0.0f);
+
+            if (isActive)
+            {
+                RestartAimingAnimation();
+            }
+        }
+
+        private void RestartAimingAnimation()
+        {
+            _animator.Play(_animator.GetCurrentAnimatorStateInfo(_upperAvatarLayerIndex).fullPathHash, _upperAvatarLayerIndex, 0.0f);
+            _animator.Play(_animator.GetCurrentAnimatorStateInfo(_legsFixLayerIndex).fullPathHash, _legsFixLayerIndex, 0.0f);
+            
+            _timeBetweenShots = _shootingCooldown * 0.75f;
         }
 
         private void JumpOver(Gap gap)
@@ -197,7 +220,7 @@ namespace Player
             _animator.SetTrigger(JumpParam);
             gap.JumpOver(transform, () =>
             {
-                _state = PlayerState.Walking;
+                _state = _currentTargets.Count > 0 ? PlayerState.Shooting : PlayerState.Walking;
             });
         }
         

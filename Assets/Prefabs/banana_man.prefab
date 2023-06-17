@@ -81,7 +81,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _damage: 35
-  _shootingCooldown: 1
+  _shootingCooldown: 1.05
   _motionJoystick: {fileID: 0}
   _characterController: {fileID: 6006467588097197904}
   _animator: {fileID: 3125842439384370854}
@@ -99,7 +99,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
+  m_Height: 1.8
   m_Radius: 0.45
   m_SlopeLimit: 45
   m_StepOffset: 0.3

@@ -1160,6 +1160,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 239584282}
     m_Modifications:
+    - target: {fileID: 1939946405763556449, guid: 15de6ee3846ffc24ab7f75f3ec9525d4, type: 3}
+      propertyPath: _distance
+      value: 5.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1939946405763556450, guid: 15de6ee3846ffc24ab7f75f3ec9525d4, type: 3}
       propertyPath: m_Size.x
       value: 22
@@ -1219,6 +1223,10 @@ PrefabInstance:
     - target: {fileID: 8440507191814776596, guid: 15de6ee3846ffc24ab7f75f3ec9525d4, type: 3}
       propertyPath: m_LocalScale.x
       value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440507191814776596, guid: 15de6ee3846ffc24ab7f75f3ec9525d4, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15de6ee3846ffc24ab7f75f3ec9525d4, type: 3}
@@ -2512,6 +2520,10 @@ PrefabInstance:
       propertyPath: _motionJoystick
       value: 
       objectReference: {fileID: 964924840}
+    - target: {fileID: 1064048148630676743, guid: d84c396bc02614d4e866810d9826a43c, type: 3}
+      propertyPath: _shootingCooldown
+      value: 1.05
+      objectReference: {fileID: 0}
     - target: {fileID: 8794312408283201625, guid: d84c396bc02614d4e866810d9826a43c, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -2522,7 +2534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8794312408283201625, guid: d84c396bc02614d4e866810d9826a43c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8794312408283201625, guid: d84c396bc02614d4e866810d9826a43c, type: 3}
       propertyPath: m_LocalPosition.z
