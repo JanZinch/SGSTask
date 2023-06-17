@@ -1,5 +1,6 @@
 ﻿using System;
 using DG.Tweening;
+using Managers;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,8 +27,7 @@ namespace Environment
 
         private void SelfDestroy()
         {
-            ParticleSystem explosionEffect = Instantiate(_explosionEffectOriginal, transform.position, Quaternion.identity);
-            
+            EffectsManager.Instance.MakeExplosion(transform.position);
             Destroy(gameObject);
         }
         

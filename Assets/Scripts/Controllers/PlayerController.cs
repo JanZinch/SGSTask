@@ -2,6 +2,7 @@
 using Adapters;
 using Controllers;
 using Environment;
+using Managers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -17,7 +18,6 @@ namespace Player
         [SerializeField] private Joystick _motionJoystick;
         [SerializeField] private CharacterController _characterController;
         [SerializeField] private Animator _animator;
-        [SerializeField] private ParticleSystem _shotEffectOriginal;
         [SerializeField] private Transform _shotEffectSpawnPoint;
         [SerializeField] private CharacterEventsAdapter _eventsAdapter;
         [SerializeField] private FootstepsTrail _footstepsTrail;
@@ -116,12 +116,7 @@ namespace Player
                 Debug.Log("Fire!");
                 _timeBetweenShots = 0.0f;
 
-                ParticleSystem shotEffect = Instantiate<ParticleSystem>(_shotEffectOriginal, _shotEffectSpawnPoint.transform.position, Quaternion.identity);
-
-                /*DOVirtual.DelayedCall(shotEffect.main.duration, () =>
-                {
-                    Destroy(shotEffect.gameObject);
-                }).SetLink(gameObject);*/
+                EffectsManager.Instance.MakeShot(_shotEffectSpawnPoint.transform.position);
             }
             else
             {
