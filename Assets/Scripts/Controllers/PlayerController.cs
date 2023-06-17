@@ -28,6 +28,7 @@ namespace Player
         private static readonly int SpeedParam = Animator.StringToHash("Speed");
         private static readonly int JumpParam = Animator.StringToHash("Jump");
         private int _upperAvatarLayerIndex;
+        private int _legsFixLayerIndex;
         
         private readonly LinkedList<PlayerTarget> _currentTargets = new LinkedList<PlayerTarget>();
 
@@ -39,6 +40,7 @@ namespace Player
         private void Awake()
         {
             _upperAvatarLayerIndex = _animator.GetLayerIndex("UpperAvatarLayer");
+            _legsFixLayerIndex = _animator.GetLayerIndex("LegsFixLayer");
         }
         
         private void OnEnable()
@@ -186,6 +188,7 @@ namespace Player
         private void SetAimingAnimation(bool isActive)
         {
             _animator.SetLayerWeight(_upperAvatarLayerIndex, Convert.ToSingle(isActive));
+            _animator.SetLayerWeight(_legsFixLayerIndex, isActive ? 0.2f : 0.0f);
         }
 
         private void JumpOver(Gap gap)
