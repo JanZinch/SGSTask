@@ -15,7 +15,7 @@ namespace Environment
             _safetyCollider.enabled = false;
             
             jumper.DOLocalMoveZ(jumper.localPosition.z + _distance * DetermineSide(jumper), _jumpAnimationClip.length)
-                .SetEase(Ease.OutCirc).SetLink(gameObject).OnComplete(() =>
+                .SetEase(Ease.OutSine).SetLink(gameObject).OnComplete(() =>
                 {
                     _safetyCollider.enabled = true;
                     onJumped?.Invoke();
