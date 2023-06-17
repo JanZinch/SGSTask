@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Adapters;
 using Controllers;
 using Environment;
@@ -26,7 +27,7 @@ namespace Player
 
         private int _upperAvatarLayerIndex;
 
-        private PlayerTarget _currentTarget = null;
+        private LinkedList<PlayerTarget> _currentTargets = new LinkedList<PlayerTarget>();
 
         private PlayerState _state = PlayerState.Walking;
 
@@ -98,11 +99,11 @@ namespace Player
         {
             MoveByJoystick();
             
-            transform.rotation = Quaternion.LookRotation(GetDirectionTo(_currentTarget.transform), Vector3.up);
+            transform.rotation = Quaternion.LookRotation(GetDirectionTo(_currentTargets.First.Value.transform), Vector3.up);
             
             if (_timeBetweenShots > _shootingCooldown)
             {
-                _currentTarget.Fire(35);
+                _currentTargets.First.Value.Fire(35);
                 Debug.Log("Fire!");
                 _timeBetweenShots = 0.0f;
 
@@ -123,7 +124,7 @@ namespace Player
         {
             if (other.TryGetComponent<PlayerTarget>(out PlayerTarget target))
             {
-                StartShooting(target);
+                AddShootingTarget(target);
             }
             else if (other.TryGetComponent<Gap>(out Gap gap))
             {
@@ -135,27 +136,57 @@ namespace Player
         {
             if (other.TryGetComponent<PlayerTarget>(out PlayerTarget target))
             {
-                if (_currentTarget == target)
+                if (_currentTargets.Contains(target))
                 {
-                    StopShooting();
+                    RemoveShootingTarget(target);
                 }
             }
         }
 
-        private void StartShooting(PlayerTarget target)
+        private void AddShootingTarget(PlayerTarget target)
         {
-            _currentTarget = target;
-            _currentTarget.OnDestroyed.AddListener(StopShooting);
-            
+            if (_currentTargets.Count == 0)
+            {
+                StartShooting();
+            }
+
+            _currentTargets.AddLast(target);
+            target.OnDestroyed.AddListener(NextShootingTarget);
+        }
+        
+        private void RemoveShootingTarget(PlayerTarget target)
+        {
+            if (_currentTargets.First.Value == target)
+            {
+                NextShootingTarget();
+            }
+            else
+            {
+                _currentTargets.Remove(target);
+                target.OnDestroyed.RemoveListener(NextShootingTarget);
+            }
+        }
+        
+        private void StartShooting()
+        {
             _state = PlayerState.Shooting;
             SetAimingAnimation(true);
         }
-        
+
+        private void NextShootingTarget()
+        {
+            PlayerTarget target = _currentTargets.First.Value;
+            _currentTargets.RemoveFirst();
+            target.OnDestroyed.RemoveListener(NextShootingTarget);
+
+            if (_currentTargets.Count == 0)
+            {
+                StopShooting();
+            }
+        }
+
         private void StopShooting()
         {
-            _currentTarget.OnDestroyed?.RemoveListener(StopShooting);
-            _currentTarget = null;
-            
             _state = PlayerState.Walking;
             SetAimingAnimation(false);
         }
