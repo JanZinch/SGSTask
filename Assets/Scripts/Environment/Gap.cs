@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Environment
 {
-    public class JumpBridge : MonoBehaviour
+    public class Gap : MonoBehaviour
     {
         [SerializeField] private float _distance;
         [SerializeField] private AnimationClip _jumpAnimationClip;

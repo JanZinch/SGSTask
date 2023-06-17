@@ -4,8 +4,6 @@ using Controllers;
 using Environment;
 using Managers;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace Player
 {
@@ -33,14 +31,6 @@ namespace Player
         private PlayerState _state = PlayerState.Walking;
 
         private float _timeBetweenShots = 0.0f;
-
-        private const string JumpBridgeTag = "jump_bridge";
-
-        [EasyButtons.Button]
-        public void Put()
-        {
-            _footstepsTrail.LeaveFootstep(transform.position + Vector3.one * 5.0f, Quaternion.identity, false);
-        }
 
         private void Awake()
         {
@@ -135,9 +125,9 @@ namespace Player
             {
                 StartShooting(target);
             }
-            else if (other.TryGetComponent<JumpBridge>(out JumpBridge jumpBridge))
+            else if (other.TryGetComponent<Gap>(out Gap gap))
             {
-                Jump(jumpBridge);
+                JumpOver(gap);
             }
         }
 
@@ -175,11 +165,11 @@ namespace Player
             _animator.SetLayerWeight(_upperAvatarLayerIndex, Convert.ToSingle(isActive));
         }
 
-        private void Jump(JumpBridge jumpBridge)
+        private void JumpOver(Gap gap)
         {
             _state = PlayerState.Jump;
             _animator.SetTrigger(JumpParam);
-            jumpBridge.JumpOver(transform, () =>
+            gap.JumpOver(transform, () =>
             {
                 _state = PlayerState.Walking;
             });
