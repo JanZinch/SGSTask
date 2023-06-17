@@ -34,6 +34,7 @@ namespace Player
         private readonly LinkedList<PlayerTarget> _currentTargets = new LinkedList<PlayerTarget>();
 
         private Vector3 _motion = default;
+        private Vector3 _cachedSelfPosition = default;
         private float _timeBetweenShots;
         
         private PlayerState _state = PlayerState.Walking;
@@ -67,8 +68,10 @@ namespace Player
                 default:
                     break;
             }
-            
-            transform.position = new Vector3(transform.position.x, 0.05f, transform.position.z);
+
+            _cachedSelfPosition = transform.position;
+            _cachedSelfPosition.y = 0.05f;
+            transform.position = _cachedSelfPosition;
         }
 
         private void MoveByJoystick()
