@@ -188,7 +188,7 @@ namespace Player
         private void SetAimingAnimation(bool isActive)
         {
             _animator.SetLayerWeight(_upperAvatarLayerIndex, Convert.ToSingle(isActive));
-            _animator.SetLayerWeight(_legsFixLayerIndex, isActive ? 0.2f : 0.0f);
+            _animator.SetLayerWeight(_legsFixLayerIndex, isActive ? 0.3f : 0.0f);
         }
 
         private void JumpOver(Gap gap)
