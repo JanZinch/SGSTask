@@ -31,6 +31,37 @@ Transform:
   m_Father: {fileID: 8794312408283201625}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7484143463649708912
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 337578881996483936}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &337578881996483936
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7484143463649708912}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.165, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8794312408283201625}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8794312408283201626
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,6 +95,7 @@ Transform:
   m_Children:
   - {fileID: 9043533679923909852}
   - {fileID: 1434600407754487576}
+  - {fileID: 337578881996483936}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -80,11 +112,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
+  _damage: 35
   _shootingCooldown: 1
   _motionJoystick: {fileID: 0}
   _characterController: {fileID: 6006467588097197904}
   _animator: {fileID: 3125842439384370854}
-  _shotEffectOriginal: {fileID: 6535137852756837535, guid: b5bcb9fd29b09e04e96489f9950c227f, type: 3}
   _shotEffectSpawnPoint: {fileID: 1434600407754487576}
   _eventsAdapter: {fileID: 5329502012127800214}
   _footstepsTrail: {fileID: 3411504752739337617}
@@ -202,6 +234,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c39c9684b84a1ea824385a71158eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _leftFootStep:
+    m_PersistentCalls:
+      m_Calls: []
+  _rightFootStep:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &9043533679923909852 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ea3bd7ff3bcb9df40a61fb86f5119864, type: 3}

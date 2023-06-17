@@ -22,6 +22,9 @@ namespace Player
         [SerializeField] private CharacterEventsAdapter _eventsAdapter;
         [SerializeField] private FootstepsTrail _footstepsTrail;
         
+        private static readonly Vector3 LeftStepOffset = new Vector3(-0.075f, 0.0f, 0.0f);
+        private static readonly Vector3 RightStepOffset = new Vector3(0.075f, 0.0f, 0.0f);
+        
         private static readonly int SpeedParam = Animator.StringToHash("Speed");
         private static readonly int JumpParam = Animator.StringToHash("Jump");
         private int _upperAvatarLayerIndex;
@@ -197,12 +200,16 @@ namespace Player
         
         private void LeaveLeftFootstep()
         {
-            _footstepsTrail.LeaveFootstep(transform.position, transform.rotation, false);
+            Transform selfTransform = transform;
+            _footstepsTrail.LeaveFootstep(selfTransform.TransformPoint(LeftStepOffset),
+                selfTransform.rotation, false);
         }
         
         private void LeaveRightFootstep()
         {
-            _footstepsTrail.LeaveFootstep(transform.position, transform.rotation, true);
+            Transform selfTransform = transform;
+            _footstepsTrail.LeaveFootstep(selfTransform.TransformPoint(RightStepOffset),
+                selfTransform.rotation, true);
         }
         
         private void OnDisable()
