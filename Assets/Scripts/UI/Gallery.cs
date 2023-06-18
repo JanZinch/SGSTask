@@ -1,4 +1,5 @@
 using Common;
+using Gallery;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,11 +21,11 @@ namespace UI
         
         private void Awake()
         {
-            _increaseStepsCount = Mathf.RoundToInt(ProjectUtils.MaxImagesCount / (float)IncreaseImagesCount);
+            _increaseStepsCount = Mathf.RoundToInt(GalleryUtility.MaxImagesCount / (float)IncreaseImagesCount);
             _increaseStep = 1.0f / _increaseStepsCount;
             
-            _imagesLoader = new ImagesLoader(_imageOriginal, _imagesLayout, ProjectUtils.MaxImagesCount, TexturesCache.Instance);
-            _imagesLoader.LoadIfPossible(ProjectUtils.StartImagesCount);
+            _imagesLoader = new ImagesLoader(_imageOriginal, _imagesLayout, GalleryUtility.MaxImagesCount, TexturesCache.Instance);
+            _imagesLoader.LoadIfPossible(GalleryUtility.StartImagesCount);
         }
 
         private void OnEnable()

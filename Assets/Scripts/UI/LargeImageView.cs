@@ -1,5 +1,6 @@
 ﻿using System;
 using Common;
+using Gallery;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -25,7 +26,7 @@ namespace UI
 
         private void OnCloseClick()
         {
-            SceneManager.LoadScene(ProjectUtils.Gallery);
+            SceneManager.LoadScene(GalleryUtility.SceneNames.Gallery);
         }
 
         protected override void OnDisable()

@@ -14,13 +14,11 @@ namespace Adapters
         
         private void OnLeftFootStep(int animationId)
         {
-            Debug.Log("On left footstep");
             _leftFootStep?.Invoke((CharacterSpeedType) animationId);
         }
         
         private void OnRightFootStep(int animationId)
         {
-            Debug.Log("On right footstep");
             _rightFootStep?.Invoke((CharacterSpeedType) animationId);
         }
         

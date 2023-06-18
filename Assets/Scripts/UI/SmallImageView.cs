@@ -1,4 +1,4 @@
-﻿using Common;
+﻿using Gallery;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,7 +20,7 @@ namespace UI
             if (IsSpriteSpecified)
             {
                 Instantiate(_dataTransmitterOriginal).Send(Sprite);
-                SceneManager.LoadScene(ProjectUtils.View);
+                SceneManager.LoadScene(GalleryUtility.SceneNames.View);
             }
         }
 

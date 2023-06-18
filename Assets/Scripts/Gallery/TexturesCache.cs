@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Common
+namespace Gallery
 {
     public class TexturesCache : MonoBehaviour
     {
@@ -40,12 +40,5 @@ namespace Common
                 DontDestroyOnLoad(gameObject);
             }
         }
-
-        [EasyButtons.Button]
-        private void Clear()
-        {
-            _cachedTextures.Clear();
-        }
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using Extensions;
+﻿using Extensions;
 using UnityEngine;
 using UnityEngine.Pool;
 

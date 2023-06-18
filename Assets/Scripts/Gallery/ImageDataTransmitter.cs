@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Common
+namespace Gallery
 {
     public class ImageDataTransmitter : MonoBehaviour
     {

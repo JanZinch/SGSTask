@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-namespace Common
+namespace Gallery
 {
     public class ImagesLoader
     {
@@ -37,7 +37,7 @@ namespace Common
 
         private IEnumerator LoadImageFromServer(int imageIndex, ImageView image)
         {
-            string uri = string.Format(ProjectUtils.RequestURL, imageIndex);
+            string uri = string.Format(GalleryUtility.RequestURL, imageIndex);
             
             using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(uri))
             {

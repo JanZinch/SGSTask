@@ -1,5 +1,4 @@
-using System;
-using Common;
+using Gallery;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,7 +16,7 @@ namespace UI
 
         private void OnGalleryClick()
         {
-            SceneManager.LoadScene(ProjectUtils.Load);
+            SceneManager.LoadScene(GalleryUtility.SceneNames.Load);
         }
 
         private void OnDisable()

@@ -13,8 +13,10 @@ namespace Environment
         public void JumpOver(Transform jumper, Action onJumped = null)
         {
             _safetyCollider.enabled = false;
+
+            float jumperTargetZ = jumper.localPosition.z + _distance * DetermineSide(jumper);
             
-            jumper.DOLocalMoveZ(jumper.localPosition.z + _distance * DetermineSide(jumper), _jumpAnimationClip.length)
+            jumper.DOLocalMoveZ(jumperTargetZ, _jumpAnimationClip.length)
                 .SetEase(Ease.OutSine).SetLink(gameObject).OnComplete(() =>
                 {
                     _safetyCollider.enabled = true;

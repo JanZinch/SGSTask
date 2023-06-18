@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Gallery;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Common
@@ -7,7 +8,7 @@ namespace Common
     {
         private void Awake()
         {
-            Screen.orientation = ProjectUtils.GetScreenOrientation(SceneManager.GetActiveScene().name);
+            Screen.orientation = GalleryUtility.GetScreenOrientation(SceneManager.GetActiveScene().name);
         }
     }
 }

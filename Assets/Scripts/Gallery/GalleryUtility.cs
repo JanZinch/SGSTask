@@ -1,13 +1,16 @@
 using UnityEngine;
 
-namespace Common
+namespace Gallery
 {
-    public static class ProjectUtils
+    public static class GalleryUtility
     {
-        public const string Menu = "Menu";
-        public const string Load = "Load";
-        public const string Gallery = "Gallery";
-        public const string View = "View";
+        public struct SceneNames
+        {
+            public const string Menu = "Menu";
+            public const string Load = "Load";
+            public const string Gallery = "Gallery";
+            public const string View = "View";
+        }
         
         public const int MaxImagesCount = 66;
         public const int StartImagesCount = 10;
@@ -17,12 +20,12 @@ namespace Common
         {
             switch (sceneName)
             {
-                case Menu: 
-                case Load:
-                case Gallery:
+                case SceneNames.Menu: 
+                case SceneNames.Load:
+                case SceneNames.Gallery:
                     return ScreenOrientation.Portrait;
                 
-                case View:
+                case SceneNames.View:
                 default:
                     return ScreenOrientation.AutoRotation;
             }

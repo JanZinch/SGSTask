@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Adapters;
-using Controllers;
 using Environment;
 using Managers;
 using UnityEngine;
 
-namespace Player
+namespace Controllers
 {
     public class PlayerController : MonoBehaviour
     {
@@ -34,6 +33,7 @@ namespace Player
         
         private readonly LinkedList<PlayerTarget> _currentTargets = new LinkedList<PlayerTarget>();
 
+        private float _sourceY;
         private Vector3 _motion = default;
         private Vector3 _cachedSelfPosition = default;
         private float _timeBetweenShots;
@@ -44,6 +44,7 @@ namespace Player
         {
             _upperAvatarLayerIndex = _animator.GetLayerIndex("UpperAvatarLayer");
             _legsFixLayerIndex = _animator.GetLayerIndex("LegsFixLayer");
+            _sourceY = transform.position.y;
         }
         
         private void OnEnable()
@@ -71,7 +72,7 @@ namespace Player
             }
 
             _cachedSelfPosition = transform.position;
-            _cachedSelfPosition.y = 0.05f;
+            _cachedSelfPosition.y = _sourceY;
             transform.position = _cachedSelfPosition;
         }
 
@@ -83,9 +84,6 @@ namespace Player
                 _motionJoystick.Vertical * _maxSpeed * Time.deltaTime);
             
             _characterController.Move(_motion);
-            
-            Debug.Log("dIR:" + _motionJoystick.Direction.magnitude);
-            
             _animator.SetFloat(SpeedParam, _motionJoystick.Direction.magnitude);
         }
 
@@ -214,8 +212,10 @@ namespace Player
 
         private void RestartAimingAnimation()
         {
-            _animator.Play(_animator.GetCurrentAnimatorStateInfo(_upperAvatarLayerIndex).fullPathHash, _upperAvatarLayerIndex, 0.0f);
-            _animator.Play(_animator.GetCurrentAnimatorStateInfo(_legsFixLayerIndex).fullPathHash, _legsFixLayerIndex, 0.0f);
+            _animator.Play(_animator.GetCurrentAnimatorStateInfo(_upperAvatarLayerIndex).fullPathHash,
+                _upperAvatarLayerIndex, 0.0f);
+            _animator.Play(_animator.GetCurrentAnimatorStateInfo(_legsFixLayerIndex).fullPathHash,
+                _legsFixLayerIndex, 0.0f);
             
             _timeBetweenShots = _shootingCooldown * 0.75f;
         }

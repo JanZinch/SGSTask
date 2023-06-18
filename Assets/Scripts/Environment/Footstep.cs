@@ -24,7 +24,6 @@ namespace Environment
             _onFaded = onFaded;
             
             Material material = _renderer.material;
-            
             material.color = material.color.WithAlpha(1.0f);
             material.DOFade(0.0f, _disappearanceDuration).SetEase(_disappearanceEase).OnComplete(() =>
             {

@@ -18,7 +18,6 @@ namespace Common
         private void Update()
         {
             float interpolation = _speed * Time.deltaTime;
-            
             Vector3 targetPosition = _target.position;
             
             _cachedPosition = transform.position;

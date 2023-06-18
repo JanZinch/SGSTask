@@ -7,14 +7,13 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Common
+namespace Gallery
 {
-    public class SceneLoader : MonoBehaviour
+    public class GalleryLoader : MonoBehaviour
     {
-        [SerializeField] private string _loadedSceneName;
         [SerializeField] private Slider _loadingSlider;
 
-        private const float DefaultLoadingDuration = 2.0f;
+        private const float FakeLoadingDuration = 2.0f;
 
         private List<AsyncOperation> _asyncOperations = null;
         private List<UnityWebRequest> _webRequests = null;
@@ -25,24 +24,24 @@ namespace Common
         {
             if (!_resourcesLoaded)
             {
-                StartCoroutine(LoadResources(() =>
+                StartCoroutine(PreloadTextures(() =>
                 {
-                    SceneManager.LoadScene(_loadedSceneName);
+                    SceneManager.LoadScene(GalleryUtility.SceneNames.Gallery);
                 }));
             }
             else
             {
-                _loadingSlider.DOValue(1.0f, DefaultLoadingDuration).SetEase(Ease.OutQuart).OnComplete(() =>
+                _loadingSlider.DOValue(1.0f, FakeLoadingDuration).SetEase(Ease.OutQuart).OnComplete(() =>
                 {
-                    SceneManager.LoadScene(_loadedSceneName);
+                    SceneManager.LoadScene(GalleryUtility.SceneNames.Gallery);
                 
                 }).SetLink(gameObject);
             }
         }
 
-        private IEnumerator LoadResources(UnityAction onComplete)
+        private IEnumerator PreloadTextures(UnityAction onComplete)
         {
-            RunOperations(ProjectUtils.StartImagesCount);
+            RunOperations(GalleryUtility.StartImagesCount);
             
             while (!AllOperationsAreDone())
             {
@@ -62,13 +61,12 @@ namespace Common
             
             for (int i = 0; i < operationsCount; i++)
             {
-                string uri = string.Format(ProjectUtils.RequestURL, i + 1);
+                string uri = string.Format(GalleryUtility.RequestURL, i + 1);
 
                 UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(uri);
                 _asyncOperations.Add(webRequest.SendWebRequest());
                 _webRequests.Add(webRequest);
             }
-            
         }
 
         private bool AllOperationsAreDone()
@@ -104,8 +102,5 @@ namespace Common
                 _webRequests[i].Dispose();
             }
         }
-
-        
-        
     }
 }
