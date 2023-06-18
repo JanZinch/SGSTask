@@ -82,7 +82,13 @@ namespace Player
                 _motionJoystick.Vertical * _maxSpeed * Time.deltaTime);
             
             _characterController.Move(_motion);
-            _animator.SetFloat(SpeedParam, Mathf.Max(Mathf.Abs(_motion.normalized.x), Mathf.Abs(_motion.normalized.z)));
+            
+            Debug.Log("x: " + _motionJoystick.Horizontal + " y: " + _motionJoystick.Vertical);
+            
+            //_animator.SetFloat(SpeedParam, Mathf.Max(Mathf.Abs(_motion.normalized.x), Mathf.Abs(_motion.normalized.z)));
+            _animator.SetFloat(SpeedParam, _motionJoystick.Direction.magnitude);
+            
+            //_animator.SetFloat(SpeedParam, (Vector3.forward * _motionJoystick.Vertical + Vector3.right * _motionJoystick.Horizontal).magnitude);
         }
 
         private void Walk()
