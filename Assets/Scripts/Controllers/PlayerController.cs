@@ -245,24 +245,24 @@ namespace Controllers
 
         private void LeaveLeftFootstep(CharacterSpeedType speedType)
         {
-            if (speedType != GetSpeedType()) return;
-                
-            Transform selfTransform = transform;
-            _footstepsTrail.LeaveFootstep(
-                selfTransform.TransformPoint(speedType == CharacterSpeedType.Walk ? LeftStepOffset : Vector3.zero),
-                selfTransform.rotation, false);
+            LeaveFootstep(speedType, false);
         }
         
         private void LeaveRightFootstep(CharacterSpeedType speedType)
         {
-            if (speedType != GetSpeedType()) return;
+            LeaveFootstep(speedType, true);
+        }
+
+        private void LeaveFootstep(CharacterSpeedType speedType, bool isRight)
+        {
+            if (_state == PlayerState.Jump || speedType != GetSpeedType()) return;
             
             Transform selfTransform = transform;
             _footstepsTrail.LeaveFootstep(
                 selfTransform.TransformPoint(speedType == CharacterSpeedType.Walk ? RightStepOffset : Vector3.zero),
-                selfTransform.rotation, true);
+                selfTransform.rotation, isRight);
         }
-        
+
         private void OnDisable()
         {
             _eventsAdapter.LeftFootStep.RemoveListener(LeaveLeftFootstep);
