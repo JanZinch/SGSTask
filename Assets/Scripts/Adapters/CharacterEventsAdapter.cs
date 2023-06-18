@@ -1,26 +1,27 @@
-﻿using UnityEngine;
+﻿using Controllers;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Adapters
 {
     public class CharacterEventsAdapter : MonoBehaviour
     {
-        [SerializeField] private UnityEvent _leftFootStep;
-        [SerializeField] private UnityEvent _rightFootStep;
+        [SerializeField] private UnityEvent<CharacterSpeedType> _leftFootStep;
+        [SerializeField] private UnityEvent<CharacterSpeedType> _rightFootStep;
 
-        public UnityEvent LeftFootStep => _leftFootStep;
-        public UnityEvent RightFootStep => _rightFootStep;
+        public UnityEvent<CharacterSpeedType> LeftFootStep => _leftFootStep;
+        public UnityEvent<CharacterSpeedType> RightFootStep => _rightFootStep;
         
-        private void OnLeftFootStep()
+        private void OnLeftFootStep(int animationId)
         {
             Debug.Log("On left footstep");
-            _leftFootStep?.Invoke();
+            _leftFootStep?.Invoke((CharacterSpeedType) animationId);
         }
         
-        private void OnRightFootStep()
+        private void OnRightFootStep(int animationId)
         {
             Debug.Log("On right footstep");
-            _rightFootStep?.Invoke();
+            _rightFootStep?.Invoke((CharacterSpeedType) animationId);
         }
         
     }

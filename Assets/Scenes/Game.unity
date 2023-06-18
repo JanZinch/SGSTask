@@ -2470,17 +2470,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 239584282}
     m_Modifications:
     - target: {fileID: 1064048148630676743, guid: d84c396bc02614d4e866810d9826a43c, type: 3}
-      propertyPath: _maxSpeed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1064048148630676743, guid: d84c396bc02614d4e866810d9826a43c, type: 3}
       propertyPath: _motionJoystick
       value: 
       objectReference: {fileID: 964924840}
-    - target: {fileID: 1064048148630676743, guid: d84c396bc02614d4e866810d9826a43c, type: 3}
-      propertyPath: _shootingCooldown
-      value: 1.05
-      objectReference: {fileID: 0}
     - target: {fileID: 8794312408283201625, guid: d84c396bc02614d4e866810d9826a43c, type: 3}
       propertyPath: m_RootOrder
       value: 2

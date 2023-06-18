@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2735ab03d7b14b90a3802afc9d95dda1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 3
+  _maxSpeed: 4
   _damage: 35
   _shootingCooldown: 1.05
   _motionJoystick: {fileID: 0}

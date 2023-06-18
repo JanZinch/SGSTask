@@ -60,19 +60,19 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.02397693
+      - time: 0.026883906
         functionName: OnRightFootStep
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 2735ab03d7b14b90a3802afc9d95dda1, type: 3}
         floatParameter: 0
-        intParameter: 0
+        intParameter: 2
         messageOptions: 0
       - time: 0.5257482
         functionName: OnLeftFootStep
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 2735ab03d7b14b90a3802afc9d95dda1, type: 3}
         floatParameter: 0
-        intParameter: 0
+        intParameter: 2
         messageOptions: 0
       transformMask: []
       maskType: 3

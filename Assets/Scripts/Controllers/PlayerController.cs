@@ -28,6 +28,7 @@ namespace Player
         
         private static readonly int SpeedParam = Animator.StringToHash("Speed");
         private static readonly int JumpParam = Animator.StringToHash("Jump");
+        
         private int _upperAvatarLayerIndex;
         private int _legsFixLayerIndex;
         
@@ -83,12 +84,9 @@ namespace Player
             
             _characterController.Move(_motion);
             
-            Debug.Log("x: " + _motionJoystick.Horizontal + " y: " + _motionJoystick.Vertical);
+            Debug.Log("dIR:" + _motionJoystick.Direction.magnitude);
             
-            //_animator.SetFloat(SpeedParam, Mathf.Max(Mathf.Abs(_motion.normalized.x), Mathf.Abs(_motion.normalized.z)));
             _animator.SetFloat(SpeedParam, _motionJoystick.Direction.magnitude);
-            
-            //_animator.SetFloat(SpeedParam, (Vector3.forward * _motionJoystick.Vertical + Vector3.right * _motionJoystick.Horizontal).magnitude);
         }
 
         private void Walk()
@@ -231,16 +229,33 @@ namespace Player
                 _state = _currentTargets.Count > 0 ? PlayerState.Shooting : PlayerState.Walking;
             });
         }
-        
-        private void LeaveLeftFootstep()
+
+        private CharacterSpeedType GetSpeedType()
         {
+            switch (_motionJoystick.Direction.magnitude)
+            {
+                case <= 0.0f:
+                    return CharacterSpeedType.Idle;
+                case < 0.5f:
+                    return CharacterSpeedType.Walk;
+                default:
+                    return CharacterSpeedType.Run;
+            }
+        }
+
+        private void LeaveLeftFootstep(CharacterSpeedType speedType)
+        {
+            if (speedType != GetSpeedType()) return;
+                
             Transform selfTransform = transform;
             _footstepsTrail.LeaveFootstep(selfTransform.TransformPoint(LeftStepOffset),
                 selfTransform.rotation, false);
         }
         
-        private void LeaveRightFootstep()
+        private void LeaveRightFootstep(CharacterSpeedType speedType)
         {
+            if (speedType != GetSpeedType()) return;
+            
             Transform selfTransform = transform;
             _footstepsTrail.LeaveFootstep(selfTransform.TransformPoint(RightStepOffset),
                 selfTransform.rotation, true);
