@@ -248,7 +248,8 @@ namespace Player
             if (speedType != GetSpeedType()) return;
                 
             Transform selfTransform = transform;
-            _footstepsTrail.LeaveFootstep(selfTransform.TransformPoint(LeftStepOffset),
+            _footstepsTrail.LeaveFootstep(
+                selfTransform.TransformPoint(speedType == CharacterSpeedType.Walk ? LeftStepOffset : Vector3.zero),
                 selfTransform.rotation, false);
         }
         
@@ -257,7 +258,8 @@ namespace Player
             if (speedType != GetSpeedType()) return;
             
             Transform selfTransform = transform;
-            _footstepsTrail.LeaveFootstep(selfTransform.TransformPoint(RightStepOffset),
+            _footstepsTrail.LeaveFootstep(
+                selfTransform.TransformPoint(speedType == CharacterSpeedType.Walk ? RightStepOffset : Vector3.zero),
                 selfTransform.rotation, true);
         }
         
