@@ -49,7 +49,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destructible: {fileID: 4546909893251485037}
-  _explosionEffectOriginal: {fileID: 5963231348808992551, guid: fdd662287daa0ef4f87350c9eb47c17d, type: 3}
   _onDestroyed:
     m_PersistentCalls:
       m_Calls: []
@@ -66,6 +65,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
+  _onHealthUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &4546909893251485033
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -90,7 +95,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 4.5
+  m_Radius: 4
   m_Center: {x: 0, y: -0.3, z: 0}
 --- !u!1001 &5140971328161547894
 PrefabInstance:
