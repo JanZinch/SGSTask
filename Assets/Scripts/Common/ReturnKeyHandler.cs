@@ -6,12 +6,20 @@ namespace Common
     public class ReturnKeyHandler : MonoBehaviour
     {
         [SerializeField] private string _previousSceneName;
+        [SerializeField] private bool _quitApplication;
         
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                SceneManager.LoadScene(_previousSceneName);
+                if (_quitApplication)
+                {
+                    Application.Quit(0);
+                }
+                else
+                {
+                    SceneManager.LoadScene(_previousSceneName); 
+                }
             }
         }
     }

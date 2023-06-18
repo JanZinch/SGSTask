@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.44402242, g: 0.49316543, b: 0.5722324, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -530,7 +530,7 @@ MonoBehaviour:
   m_Content: {fileID: 1902016933}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 2
+  m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
@@ -639,7 +639,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -702,7 +702,6 @@ MonoBehaviour:
   _imageOriginal: {fileID: 4875760472085977202, guid: 428e022d1d31920449d28c0b60491fc0, type: 3}
   _imagesLayout: {fileID: 490048817}
   _scrollRect: {fileID: 985087388}
-  _texturesCache: {fileID: 11400000, guid: 0c31ba2b5fbf48449a3252b481e740c0, type: 2}
 --- !u!114 &1625548219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,6 +727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _previousSceneName: Menu
+  _quitApplication: 0
 --- !u!1 &1902016932
 GameObject:
   m_ObjectHideFlags: 0
