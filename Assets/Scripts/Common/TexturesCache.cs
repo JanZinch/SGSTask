@@ -5,10 +5,12 @@ using UnityEngine;
 
 namespace Common
 {
-    public class TexturesCache
+    public class TexturesCache : MonoBehaviour
     {
         private LinkedList<Tuple<int, Texture2D>> _cachedTextures = new LinkedList<Tuple<int, Texture2D>>();
-        
+
+        public static TexturesCache Instance { get; private set; } = null;
+
         public void Add(int texIndex, Texture2D texInstance)
         {
             _cachedTextures.AddLast(new Tuple<int, Texture2D>(texIndex, texInstance));
@@ -25,5 +27,25 @@ namespace Common
             else 
                 return null;
         }
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+        }
+
+        [EasyButtons.Button]
+        private void Clear()
+        {
+            _cachedTextures.Clear();
+        }
+
     }
 }

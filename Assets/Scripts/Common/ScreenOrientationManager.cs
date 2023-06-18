@@ -7,7 +7,7 @@ namespace Common
     {
         private void Awake()
         {
-            Screen.orientation = SceneUtils.GetScreenOrientation(SceneManager.GetActiveScene().name);
+            Screen.orientation = ProjectUtils.GetScreenOrientation(SceneManager.GetActiveScene().name);
         }
     }
 }

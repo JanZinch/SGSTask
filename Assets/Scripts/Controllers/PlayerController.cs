@@ -174,7 +174,6 @@ namespace Player
             }
             else
             {
-                
                 RestartAimingAnimation();
             }
         }

@@ -10,8 +10,6 @@ namespace UI
         [SerializeField] private LayoutGroup _imagesLayout;
         [SerializeField] private ScrollRect _scrollRect;
         
-        private const int MaxImagesCount = 66;
-        private const int StartImagesCount = 10;
         private const int IncreaseImagesCount = 2; 
         
         private int _increaseStepsCount;   
@@ -22,11 +20,11 @@ namespace UI
         
         private void Awake()
         {
-            _increaseStepsCount = Mathf.RoundToInt(MaxImagesCount / (float)IncreaseImagesCount);
+            _increaseStepsCount = Mathf.RoundToInt(ProjectUtils.MaxImagesCount / (float)IncreaseImagesCount);
             _increaseStep = 1.0f / _increaseStepsCount;
             
-            _imagesLoader = new ImagesLoader(_imageOriginal, _imagesLayout, MaxImagesCount);
-            _imagesLoader.LoadIfPossible(StartImagesCount);
+            _imagesLoader = new ImagesLoader(_imageOriginal, _imagesLayout, ProjectUtils.MaxImagesCount, TexturesCache.Instance);
+            _imagesLoader.LoadIfPossible(ProjectUtils.StartImagesCount);
         }
 
         private void OnEnable()

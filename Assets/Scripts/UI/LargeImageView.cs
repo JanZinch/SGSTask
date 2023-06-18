@@ -25,7 +25,7 @@ namespace UI
 
         private void OnCloseClick()
         {
-            SceneManager.LoadScene(SceneUtils.Gallery);
+            SceneManager.LoadScene(ProjectUtils.Gallery);
         }
 
         protected override void OnDisable()

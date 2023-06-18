@@ -20,7 +20,7 @@ namespace UI
             if (IsSpriteSpecified)
             {
                 Instantiate(_dataTransmitterOriginal).Send(Sprite);
-                SceneManager.LoadScene(SceneUtils.View);
+                SceneManager.LoadScene(ProjectUtils.View);
             }
         }
 
